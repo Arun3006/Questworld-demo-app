@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QuestWorld - Game History</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top, #193b20 0%, #071008 35%, #030403 75%);
+            color: white;
+            padding-bottom: 90px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .back {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(57,255,20,.35);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #39ff14;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .title {
+            color: #39ff14;
+            font-size: 21px;
+            font-weight: 900;
+        }
+
+        .summary {
+            background: rgba(15,20,16,.95);
+            border: 1px solid rgba(57,255,20,.25);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .summary-label {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .summary-value {
+            color: #39ff14;
+            font-size: 34px;
+            font-weight: 900;
+            margin-top: 7px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 14px;
+        }
+
+        .game-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .game-item {
+            background: rgba(15,20,16,.95);
+            border: 1px solid rgba(255,255,255,.07);
+            border-radius: 17px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .game-left {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .game-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(57,255,20,.08);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+        }
+
+        .game-name {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .game-date {
+            color: #666;
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        .game-credit {
+            color: #ff5c5c;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #777;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 450px;
+            height: 72px;
+            background: rgba(5,8,6,.97);
+            border-top: 1px solid rgba(57,255,20,.15);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            z-index: 10;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            font-size: 10px;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .nav-item.active {
+            color: #39ff14;
+        }
+
+        .nav-icon {
+            font-size: 21px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="header">
+
+        <div class="back" onclick="goBack()">
+            ←
+        </div>
+
+        <div class="title">
+            Game Played
+        </div>
+
+    </div>
+
+
+    <div class="summary">
+
+        <div class="summary-label">
+            Available Credits
+        </div>
+
+        <div class="summary-value" id="creditBalance">
+            55
+        </div>
+
+    </div>
+
+
+    <div class="section-title">
+        Played Games
+    </div>
+
+
+    <div class="game-list" id="gameList">
+    </div>
+
+</div>
+
+
+<div class="bottom-nav">
+
+    <div class="nav-item" onclick="goHome()">
+        <div class="nav-icon">🏠</div>
+        Home
+    </div>
+
+    <div class="nav-item active" onclick="goGames()">
+        <div class="nav-icon">🎮</div>
+        Games
+    </div>
+
+    <div class="nav-item" onclick="goRecharge()">
+        <div class="nav-icon">💳</div>
+        Recharge
+    </div>
+
+    <div class="nav-item" onclick="goProfile()">
+        <div class="nav-icon">👤</div>
+        Profile
+    </div>
+
+</div>
+
+
+<script>
+
+    function loadGameHistory() {
+
+        let credits =
+            Number(localStorage.getItem("questworldCredits")) || 55;
+
+        document.getElementById("creditBalance").textContent =
+            credits;
+
+
+        let history =
+            JSON.parse(
+                localStorage.getItem("questworldHistory")
+            ) || [];
+
+
+        let gameHistory =
+            history.filter(function(item) {
+
+                return item.type === "game";
+
+            });
+
+
+        let list =
+            document.getElementById("gameList");
+
+
+        list.innerHTML = "";
+
+
+        if (gameHistory.length === 0) {
+
+            list.innerHTML = `
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🎮
+                    </div>
+
+                    <div>
+                        No games played yet
+                    </div>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        gameHistory.forEach(function(item) {
+
+            list.innerHTML += `
+
+                <div class="game-item">
+
+                    <div class="game-left">
+
+                        <div class="game-icon">
+                            🎮
+                        </div>
+
+                        <div>
+
+                            <div class="game-name">
+                                ${item.name}
+                            </div>
+
+                            <div class="game-date">
+                                ${item.date}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="game-credit">
+                        ${item.credits} Credits
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+    function goBack() {
+        window.location.href =
+            "customer-dashboard.html";
+    }
+
+
+    function goHome() {
+        window.location.href =
+            "customer-dashboard.html";
+    }
+
+
+    function goGames() {
+        window.location.href =
+            "games/index.html";
+    }
+
+
+    function goRecharge() {
+        window.location.href =
+            "recharge.html";
+    }
+
+
+    function goProfile() {
+        window.location.href =
+            "profile.html";
+    }
+
+
+    loadGameHistory();
+
+</script>
+
+</body>
+</html>

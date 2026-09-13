@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>QuestWorld - My Profile</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        background:
+            radial-gradient(circle at top, #193b20 0%, #071008 35%, #030403 75%);
+        color: white;
+    }
+
+    .app {
+        width: 100%;
+        max-width: 450px;
+        min-height: 100vh;
+        margin: auto;
+        padding: 20px;
+        padding-bottom: 100px;
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .back {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        border: 1px solid rgba(57,255,20,.25);
+        background: rgba(57,255,20,.06);
+        color: #39ff14;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .title {
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .profile-card {
+        background: rgba(15,20,16,.92);
+        border: 1px solid rgba(57,255,20,.25);
+        border-radius: 24px;
+        padding: 28px 20px;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(0,0,0,.5);
+    }
+
+    .avatar {
+        width: 82px;
+        height: 82px;
+        margin: auto;
+        border-radius: 50%;
+        border: 2px solid #39ff14;
+        background: rgba(57,255,20,.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 38px;
+        box-shadow: 0 0 25px rgba(57,255,20,.18);
+    }
+
+    .name {
+        margin-top: 15px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .customer {
+        margin-top: 5px;
+        color: #888;
+        font-size: 12px;
+    }
+
+    .info-section {
+        margin-top: 22px;
+    }
+
+    .info-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 17px;
+        margin-bottom: 10px;
+        background: rgba(15,20,16,.9);
+        border: 1px solid rgba(255,255,255,.07);
+        border-radius: 16px;
+    }
+
+    .info-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: rgba(57,255,20,.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 21px;
+    }
+
+    .info-label {
+        color: #777;
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+
+    .info-value {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .credit-box {
+        margin-top: 22px;
+        padding: 20px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #152d18, #071008);
+        border: 1px solid rgba(57,255,20,.3);
+    }
+
+    .credit-label {
+        color: #999;
+        font-size: 12px;
+    }
+
+    .credits {
+        margin-top: 6px;
+        color: #39ff14;
+        font-size: 32px;
+        font-weight: 900;
+    }
+
+    .logout {
+        width: 100%;
+        margin-top: 25px;
+        padding: 15px;
+        border-radius: 14px;
+        border: 1px solid #ff4d4d;
+        background: transparent;
+        color: #ff5c5c;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .logout:hover {
+        background: rgba(255,77,77,.08);
+    }
+
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 450px;
+        height: 72px;
+        background: rgba(5,8,6,.97);
+        border-top: 1px solid rgba(57,255,20,.15);
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #666;
+        font-size: 10px;
+        cursor: pointer;
+        gap: 5px;
+    }
+
+    .nav-item.active {
+        color: #39ff14;
+    }
+
+    .nav-icon {
+        font-size: 21px;
+    }
+</style>
+
+</head><body><div class="app"><div class="header">
+    <button class="back" onclick="goBack()">‹</button>
+    <div class="title">My Profile</div>
+</div>
+
+<div class="profile-card">
+
+    <div class="avatar">👤</div>
+
+    <div class="name">Arun</div>
+
+    <div class="customer">
+        QuestWorld Customer
+    </div>
+
+</div>
+
+<div class="info-section">
+
+    <div class="info-card">
+        <div class="info-icon">📱</div>
+        <div>
+            <div class="info-label">Mobile Number</div>
+            <div class="info-value" id="phoneNumber">
+                +91 XXXXX XXXXX
+            </div>
+        </div>
+    </div>
+
+    <div class="info-card">
+        <div class="info-icon">🎟️</div>
+        <div>
+            <div class="info-label">Account Type</div>
+            <div class="info-value">Customer</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="credit-box">
+
+    <div class="credit-label">
+        Available Credits
+    </div>
+
+    <div class="credits" id="creditBalance">
+        55
+    </div>
+
+</div>
+
+<button class="logout" onclick="logout()">
+    🚪 Logout
+</button>
+
+</div><div class="bottom-nav"><div class="nav-item" onclick="goHome()">
+    <div class="nav-icon">🏠</div>
+    Home
+</div>
+
+<div class="nav-item" onclick="goGames()">
+    <div class="nav-icon">🎮</div>
+    Games
+</div>
+
+<div class="nav-item" onclick="goRecharge()">
+    <div class="nav-icon">💳</div>
+    Recharge
+</div>
+
+<div class="nav-item active">
+    <div class="nav-icon">👤</div>
+    Profile
+</div>
+
+</div><script>
+
+    function loadProfile() {
+
+        let credits =
+            Number(localStorage.getItem("questworldCredits")) || 55;
+
+        document.getElementById("creditBalance").textContent =
+            credits;
+
+        let phone =
+            localStorage.getItem("questworldPhone");
+
+        if (phone) {
+            document.getElementById("phoneNumber").textContent =
+                "+91 " + phone;
+        }
+    }
+
+
+    function goBack() {
+        window.location.href = "customer-dashboard.html";
+    }
+
+
+    function goHome() {
+        window.location.href = "customer-dashboard.html";
+    }
+
+
+    function goGames() {
+        window.location.href = "games/index.html";
+    }
+
+
+    function goRecharge() {
+        window.location.href = "recharge.html";
+    }
+
+
+    function logout() {
+
+        localStorage.removeItem("questworldCredits");
+        localStorage.removeItem("lastRechargeCredits");
+        localStorage.removeItem("lastRechargeAmount");
+        localStorage.removeItem("questworldPhone");
+
+        window.location.href = "customer-login.html";
+    }
+
+
+    loadProfile();
+
+</script></body>
+</html>

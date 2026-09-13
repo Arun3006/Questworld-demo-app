@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuestWorld - OTP Verification</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top, #193b20, #071008 40%, #030403 80%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .back {
+            position: absolute;
+            top: 25px;
+            left: 20px;
+            color: #39ff14;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo-circle {
+            width: 75px;
+            height: 75px;
+            margin: auto;
+            border: 2px solid #39ff14;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 25px rgba(57,255,20,.4);
+        }
+
+        .logo-circle span {
+            color: #39ff14;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .logo h1 {
+            margin-top: 15px;
+            color: #39ff14;
+            letter-spacing: 3px;
+            font-size: 27px;
+        }
+
+        .card {
+            background: rgba(15,20,16,.9);
+            border: 1px solid rgba(57,255,20,.25);
+            border-radius: 24px;
+            padding: 30px 22px;
+            box-shadow: 0 15px 50px rgba(0,0,0,.6);
+        }
+
+        .title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .number {
+            text-align: center;
+            color: #39ff14;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .otp-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .otp {
+            width: 55px;
+            height: 58px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            background: #0b100c;
+            border: 1px solid #444;
+            border-radius: 12px;
+            outline: none;
+        }
+
+        .otp:focus {
+            border-color: #39ff14;
+            box-shadow: 0 0 12px rgba(57,255,20,.3);
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 13px;
+            background: #39ff14;
+            color: #020402;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .verify-btn:hover {
+            box-shadow: 0 0 30px rgba(57,255,20,.5);
+            transform: translateY(-2px);
+        }
+
+        .resend {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        .resend span {
+            color: #39ff14;
+            cursor: pointer;
+        }
+
+        .demo {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 10px;
+            background: rgba(57,255,20,.06);
+            border: 1px solid rgba(57,255,20,.15);
+            text-align: center;
+            color: #777;
+            font-size: 11px;
+        }
+
+        .demo strong {
+            color: #39ff14;
+        }
+
+        @media (max-width: 360px) {
+            .otp {
+                width: 48px;
+                height: 52px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="back" onclick="goBack()">
+            ← Back
+        </div>
+
+        <div class="logo">
+
+            <div class="logo-circle">
+                <span>Q</span>
+            </div>
+
+            <h1>QUESTWORLD</h1>
+
+        </div>
+
+        <div class="card">
+
+            <div class="title">
+                Verify Mobile Number
+            </div>
+
+            <div class="subtitle">
+                Enter the 4-digit OTP sent to your
+                registered mobile number.
+            </div>
+
+            <div class="number" id="mobileNumber">
+                +91 XXXXX XXXXX
+            </div>
+
+            <div class="otp-box">
+
+                <input
+                    class="otp"
+                    id="otp1"
+                    type="tel"
+                    maxlength="1"
+                    inputmode="numeric"
+                    oninput="validateOTP(this, 'otp2')">
+
+                <input
+                    class="otp"
+                    id="otp2"
+                    type="tel"
+                    maxlength="1"
+                    inputmode="numeric"
+                    oninput="validateOTP(this, 'otp3')">
+
+                <input
+                    class="otp"
+                    id="otp3"
+                    type="tel"
+                    maxlength="1"
+                    inputmode="numeric"
+                    oninput="validateOTP(this, 'otp4')">
+
+                <input
+                    class="otp"
+                    id="otp4"
+                    type="tel"
+                    maxlength="1"
+                    inputmode="numeric">
+
+            </div>
+
+            <button
+                class="verify-btn"
+                onclick="verifyOTP()">
+
+                Verify & Continue →
+
+            </button>
+
+            <div class="resend">
+                Didn't receive OTP?
+                <span onclick="resendOTP()">Resend OTP</span>
+            </div>
+
+            <div class="demo">
+                DEMO OTP:
+                <strong>1234</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Show saved mobile number
+        function loadMobileNumber() {
+
+            let phone =
+                localStorage.getItem("questworldPhone");
+
+            if (phone) {
+
+                document.getElementById("mobileNumber").textContent =
+                    "+91 " + phone;
+
+            } else {
+
+                document.getElementById("mobileNumber").textContent =
+                    "+91 XXXXX XXXXX";
+
+            }
+
+        }
+
+
+        // Allow only numbers and move to next box
+        function validateOTP(current, nextId) {
+
+            current.value =
+                current.value.replace(/\D/g, "");
+
+            if (current.value.length === 1) {
+
+                document.getElementById(nextId).focus();
+
+            }
+
+        }
+
+
+        function verifyOTP() {
+
+            let otp =
+                document.getElementById("otp1").value +
+                document.getElementById("otp2").value +
+                document.getElementById("otp3").value +
+                document.getElementById("otp4").value;
+
+
+            if (otp.length !== 4) {
+
+                alert("Please enter the 4-digit OTP.");
+
+                return;
+            }
+
+
+            if (otp === "1234") {
+
+                alert("Login successful! 🎮");
+
+                window.location.href =
+                    "customer-dashboard.html";
+
+            } else {
+
+                alert("Invalid OTP. Please try again.");
+
+            }
+
+        }
+
+
+        function resendOTP() {
+
+            alert(
+                "New demo OTP sent!\n\nOTP: 1234"
+            );
+
+        }
+
+
+        function goBack() {
+
+            window.location.href =
+                "customer-login.html";
+
+        }
+
+
+        // Load phone number when page opens
+        loadMobileNumber();
+
+    </script>
+
+</body>
+</html>

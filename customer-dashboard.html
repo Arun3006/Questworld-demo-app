@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QuestWorld - Customer Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top, #193b20 0%, #071008 35%, #030403 75%);
+            color: white;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            margin: auto;
+            padding: 20px;
+            padding-bottom: 90px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            color: #39ff14;
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .profile {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid #39ff14;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(57,255,20,.08);
+            cursor: pointer;
+        }
+
+        .welcome {
+            margin-bottom: 20px;
+        }
+
+        .small-text {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .customer-name {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .credit-card {
+            position: relative;
+            overflow: hidden;
+            padding: 25px;
+            border-radius: 24px;
+            background:
+                linear-gradient(135deg, #152d18, #071008);
+            border: 1px solid rgba(57,255,20,.45);
+            box-shadow:
+                0 15px 40px rgba(0,0,0,.5),
+                0 0 25px rgba(57,255,20,.08);
+            margin-bottom: 20px;
+        }
+
+        .credit-card::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 1px solid rgba(57,255,20,.1);
+            right: -70px;
+            top: -70px;
+        }
+
+        .credit-label {
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .credits {
+            font-size: 42px;
+            font-weight: 900;
+            color: #39ff14;
+            margin: 8px 0;
+        }
+
+        .credit-word {
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .recharge-small {
+            margin-top: 20px;
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 12px;
+            background: #39ff14;
+            color: #020402;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 25px 0 13px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .action {
+            padding: 20px 15px;
+            background: rgba(15,20,16,.9);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 18px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .action:hover {
+            transform: translateY(-2px);
+            border-color: rgba(57,255,20,.4);
+        }
+
+        .action-icon {
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .action-name {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .action-info {
+            color: #777;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .packages {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .package {
+            min-width: 145px;
+            padding: 18px;
+            background: rgba(15,20,16,.9);
+            border: 1px solid rgba(57,255,20,.18);
+            border-radius: 17px;
+        }
+
+        .package-price {
+            color: #39ff14;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .package-name {
+            margin-top: 7px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .package-credit {
+            color: #888;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .activity {
+            background: rgba(15,20,16,.9);
+            border: 1px solid rgba(255,255,255,.07);
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .activity-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,.05);
+        }
+
+        .activity-row:last-child {
+            border-bottom: none;
+        }
+
+        .activity-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .activity-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: rgba(57,255,20,.08);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .activity-name {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .activity-date {
+            color: #666;
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        .credit-plus {
+            color: #39ff14;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .credit-minus {
+            color: #ff5c5c;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 450px;
+            height: 72px;
+            background: rgba(5,8,6,.97);
+            border-top: 1px solid rgba(57,255,20,.15);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            z-index: 10;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            font-size: 10px;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .nav-item.active {
+            color: #39ff14;
+        }
+
+        .nav-icon {
+            font-size: 21px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="header">
+        <div class="brand">
+            QUESTWORLD
+        </div>
+
+        <div class="profile" onclick="openProfile()">
+            👤
+        </div>
+    </div>
+
+
+    <div class="welcome">
+
+        <div class="small-text">
+            Welcome back 👋
+        </div>
+
+        <div class="customer-name" id="customerName">
+            Arun
+        </div>
+
+        <div class="small-text" id="customerPhone">
+            +91 XXXXX XXXXX
+        </div>
+
+    </div>
+
+
+    <div class="credit-card">
+
+        <div class="credit-label">
+            Available Credits
+        </div>
+
+        <div class="credits" id="creditBalance">
+            55
+        </div>
+
+        <div class="credit-word">
+            QuestWorld Credits
+        </div>
+
+        <button class="recharge-small" onclick="recharge()">
+            + Recharge Credits
+        </button>
+
+    </div>
+
+
+    <div class="section-title">
+        Quick Actions
+    </div>
+
+    <div class="quick-actions">
+
+        <div class="action" onclick="openGames()">
+            <div class="action-icon">🎮</div>
+            <div class="action-name">Play Games</div>
+            <div class="action-info">Explore all games</div>
+        </div>
+
+        <div class="action" onclick="recharge()">
+            <div class="action-icon">💳</div>
+            <div class="action-name">Recharge</div>
+            <div class="action-info">Add credits</div>
+        </div>
+
+        <div class="action" onclick="history()">
+            <div class="action-icon">📜</div>
+            <div class="action-name">History</div>
+            <div class="action-info">View transactions</div>
+        </div>
+
+        <div class="action" onclick="openProfile()">
+            <div class="action-icon">👤</div>
+            <div class="action-name">My Profile</div>
+            <div class="action-info">Account details</div>
+        </div>
+
+    </div>
+
+
+    <div class="section-title">
+        Popular Packages
+    </div>
+
+    <div class="packages">
+
+        <div class="package">
+            <div class="package-price">₹1,250</div>
+            <div class="package-name">Standard</div>
+            <div class="package-credit">20 Credits</div>
+        </div>
+
+        <div class="package">
+            <div class="package-price">₹2,500</div>
+            <div class="package-name">Premium</div>
+            <div class="package-credit">55 Credits</div>
+        </div>
+
+        <div class="package">
+            <div class="package-price">₹3,500</div>
+            <div class="package-name">Ultimate</div>
+            <div class="package-credit">105 Credits</div>
+        </div>
+
+        <div class="package">
+            <div class="package-price">₹5,000</div>
+            <div class="package-name">Mega</div>
+            <div class="package-credit">165 Credits</div>
+        </div>
+
+    </div>
+
+
+    <div class="section-title">
+        Recent Activity
+    </div>
+
+    <div class="activity">
+
+        <div class="activity-row" onclick="openGameHistory()" style="cursor:pointer;">
+
+            <div class="activity-left">
+                <div class="activity-icon">🎮</div>
+
+                <div>
+                    <div class="activity-name">
+                        Game Played
+                    </div>
+
+                    <div class="activity-date">
+                        Today
+                    </div>
+                </div>
+            </div>
+
+            <div class="credit-minus">
+                -6
+            </div>
+
+        </div>
+
+
+        <div class="activity-row">
+
+            <div class="activity-left">
+                <div class="activity-icon">💳</div>
+
+                <div>
+                    <div class="activity-name" id="rechargeActivityName">
+                        Credits Added
+                    </div>
+
+                    <div class="activity-date" id="rechargeActivityDate">
+                        Yesterday
+                    </div>
+                </div>
+            </div>
+
+            <div class="credit-plus" id="rechargeActivityAmount">
+                +55
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="bottom-nav">
+
+    <div class="nav-item active" onclick="goHome()">
+        <div class="nav-icon">🏠</div>
+        Home
+    </div>
+
+    <div class="nav-item" onclick="openGames()">
+        <div class="nav-icon">🎮</div>
+        Games
+    </div>
+
+    <div class="nav-item" onclick="recharge()">
+        <div class="nav-icon">💳</div>
+        Recharge
+    </div>
+
+    <div class="nav-item" onclick="openProfile()">
+        <div class="nav-icon">👤</div>
+        Profile
+    </div>
+
+</div>
+
+
+<script>
+
+    function loadCustomerDetails() {
+
+        let phone =
+            localStorage.getItem("questworldPhone");
+
+        if (phone) {
+
+            document.getElementById("customerPhone").textContent =
+                "+91 " + phone;
+
+        }
+
+    }
+
+    /* LOAD CREDIT BALANCE */
+
+    function loadCredits() {
+
+        let savedCredits =
+            localStorage.getItem("questworldCredits");
+
+        if (savedCredits === null) {
+
+            savedCredits = 55;
+
+            localStorage.setItem(
+                "questworldCredits",
+                savedCredits
+            );
+        }
+
+        document.getElementById("creditBalance").textContent =
+            savedCredits;
+    }
+
+
+    /* LOAD LAST RECHARGE */
+
+    function loadLastRecharge() {
+
+        let lastCredits =
+            localStorage.getItem("lastRechargeCredits");
+
+        if (lastCredits !== null) {
+
+            document.getElementById(
+                "rechargeActivityAmount"
+            ).textContent =
+                "+" + lastCredits;
+
+            document.getElementById(
+                "rechargeActivityName"
+            ).textContent =
+                "Recharge Completed";
+
+            document.getElementById(
+                "rechargeActivityDate"
+            ).textContent =
+                "Recently";
+        }
+    }
+
+
+    function recharge() {
+        window.location.href = "recharge.html";
+    }
+
+
+    function openGames() {
+        window.location.href = "games/index.html";
+    }
+
+
+    function history() {
+        window.location.href = "history.html";
+    }
+
+
+    function openGameHistory() {
+        window.location.href = "game-history.html";
+    }
+
+
+    function openProfile() {
+        window.location.href = "profile.html";
+    }
+
+
+    function goHome() {
+        window.location.href = "customer-dashboard.html";
+    }
+
+
+    /* RUN WHEN DASHBOARD OPENS */
+
+    loadCredits();
+    loadCustomerDetails();
+    loadLastRecharge();
+
+</script>
+
+</body>
+</html>

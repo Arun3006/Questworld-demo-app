@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QuestWorld - Payment</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #050505;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #1f1f1f;
+        }
+
+        .back {
+            font-size: 30px;
+            color: #39ff14;
+            cursor: pointer;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #39ff14;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: auto;
+            padding: 25px 18px 40px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: #101010;
+            border: 1px solid #242424;
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 18px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .package-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .package-name {
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .package-price {
+            color: #39ff14;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .credits {
+            color: #39ff14;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .worth {
+            color: #999;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .worth span {
+            color: #39ff14;
+            font-weight: bold;
+        }
+
+        .divider {
+            height: 1px;
+            background: #252525;
+            margin: 15px 0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 13px 0;
+            color: #aaa;
+        }
+
+        .summary-row.total {
+            color: white;
+            font-size: 21px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .summary-row.total span:last-child {
+            color: #39ff14;
+        }
+
+        .demo-box {
+            background: #0b1609;
+            border: 1px solid #245b19;
+            border-radius: 14px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .demo-title {
+            color: #39ff14;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .demo-text {
+            color: #999;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 13px;
+            background: #39ff14;
+            color: #000;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .confirm-btn:hover {
+            background: #28d90b;
+        }
+
+        .cancel-btn {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #333;
+            border-radius: 13px;
+            background: transparent;
+            color: #aaa;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        .success {
+            display: none;
+            text-align: center;
+            padding-top: 35px;
+        }
+
+        .success-icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 2px solid #39ff14;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 45px;
+            color: #39ff14;
+        }
+
+        .success h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .success p {
+            color: #999;
+            line-height: 1.5;
+        }
+
+        .success-credit {
+            margin: 25px 0;
+            background: #101010;
+            border: 1px solid #242424;
+            border-radius: 18px;
+            padding: 22px;
+        }
+
+        .success-credit .label {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .success-credit .amount {
+            color: #39ff14;
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 7px;
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 13px;
+            background: #39ff14;
+            color: #000;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media (max-width: 400px) {
+            .title {
+                font-size: 25px;
+            }
+
+            .package-price {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="back" onclick="goBack()">‹</div>
+        <div class="logo">QUESTWORLD</div>
+    </div>
+
+    <div class="container">
+
+        <!-- PAYMENT SECTION -->
+
+        <div id="paymentSection">
+
+            <div class="title">Confirm Recharge</div>
+
+            <div class="subtitle">
+                Review your package before continuing.
+            </div>
+
+            <div class="card">
+
+                <div class="card-title">
+                    Selected Package
+                </div>
+
+                <div class="package-row">
+
+                    <div>
+                        <div class="package-name" id="packageName">
+                            Premium Package
+                        </div>
+
+                        <div class="credits" id="packageCredits">
+                            55 Credits
+                        </div>
+
+                        <div class="worth" id="packageWorth">
+                            Get ₹4,000 worth of value
+                        </div>
+                    </div>
+
+                    <div class="package-price" id="packagePrice">
+                        ₹2,500
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Payment Summary
+                </div>
+
+                <div class="summary-row">
+                    <span>Package</span>
+                    <span id="summaryPackage">₹2,500</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Credits</span>
+                    <span id="summaryCredits">55</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span id="totalAmount">₹2,500</span>
+                </div>
+
+                <div class="demo-box">
+
+                    <div class="demo-title">
+                        DEMO PAYMENT
+                    </div>
+
+                    <div class="demo-text">
+                        This is a demonstration payment flow.
+                        No real money will be charged.
+                    </div>
+
+                </div>
+
+                <button class="confirm-btn" onclick="confirmPayment()">
+                    Confirm Recharge 💳
+                </button>
+
+                <button class="cancel-btn" onclick="goBack()">
+                    Cancel
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUCCESS SECTION -->
+
+        <div class="success" id="successSection">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <h2>Recharge Successful!</h2>
+
+            <p>
+                Your credits have been added successfully
+                to your QuestWorld account.
+            </p>
+
+            <div class="success-credit">
+
+                <div class="label">
+                    Credits Added
+                </div>
+
+                <div class="amount" id="successCredits">
+                    +55 Credits
+                </div>
+
+            </div>
+
+            <button class="continue-btn" onclick="goDashboard()">
+                Go to Dashboard
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /*
+         * Demo package data
+         *
+         * recharge.html can send:
+         * price
+         * credits
+         *
+         * through the URL.
+         */
+
+        const params = new URLSearchParams(window.location.search);
+
+        let price = Number(params.get("price")) || 2500;
+        let credits = Number(params.get("credits")) || 55;
+
+
+        function formatPrice(amount) {
+            return "₹" + amount.toLocaleString("en-IN");
+        }
+
+
+        function loadPackage() {
+
+            let packageName = "Standard Package";
+            let worthText = "";
+
+            if (price === 1250) {
+                packageName = "Standard Package";
+                worthText = "20 Credits";
+            }
+
+            else if (price === 2500) {
+                packageName = "Premium Package";
+                worthText = "Get ₹4,000 worth of value";
+            }
+
+            else if (price === 3500) {
+                packageName = "Ultimate Package";
+                worthText = "Get ₹7,000 worth of value";
+            }
+
+            else if (price === 5000) {
+                packageName = "Mega Package";
+                worthText = "Get ₹10,000 worth of value";
+            }
+
+            document.getElementById("packageName").textContent = packageName;
+
+            document.getElementById("packageCredits").textContent =
+                credits + " Credits";
+
+            document.getElementById("packageWorth").textContent =
+                worthText;
+
+            document.getElementById("packagePrice").textContent =
+                formatPrice(price);
+
+            document.getElementById("summaryPackage").textContent =
+                formatPrice(price);
+
+            document.getElementById("summaryCredits").textContent =
+                credits + " Credits";
+
+            document.getElementById("totalAmount").textContent =
+                formatPrice(price);
+
+            document.getElementById("successCredits").textContent =
+                "+" + credits + " Credits";
+        }
+
+
+        function confirmPayment() {
+            let history =
+    JSON.parse(localStorage.getItem("questworldHistory")) || [];
+
+history.unshift({
+    type: "recharge",
+    name: "Recharge",
+    credits: credits,
+    amount: price,
+    date: new Date().toLocaleString()
+});
+
+localStorage.setItem(
+    "questworldHistory",
+    JSON.stringify(history)
+);
+
+            /*
+             * Demo recharge:
+             * No real payment is processed.
+             */
+
+            document.getElementById("paymentSection").style.display =
+                "none";
+
+            document.getElementById("successSection").style.display =
+                "block";
+
+            /*
+             * Save demo credits locally.
+             * This is only for the demo app.
+             */
+
+            let currentCredits =
+                Number(localStorage.getItem("questworldCredits")) || 55;
+
+            let newCredits =
+                currentCredits + credits;
+
+            localStorage.setItem(
+                "questworldCredits",
+                newCredits
+            );
+
+            localStorage.setItem(
+                "lastRechargeAmount",
+                price
+            );
+
+            localStorage.setItem(
+                "lastRechargeCredits",
+                credits
+            );
+        }
+
+
+        function goBack() {
+            window.location.href = "recharge.html";
+        }
+
+
+        function goDashboard() {
+            window.location.href = "customer-dashboard.html";
+        }
+
+
+        loadPackage();
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuestWorld - Recharge</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #050505;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #1c1c1c;
+        }
+
+        .back {
+            font-size: 26px;
+            color: #39ff14;
+            cursor: pointer;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #39ff14;
+        }
+
+        .container {
+            padding: 25px 18px 100px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #999;
+            margin-bottom: 25px;
+        }
+
+        .balance {
+            background: #101010;
+            border: 1px solid #222;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .balance-title {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .balance-credit {
+            color: #39ff14;
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .package {
+            background: #101010;
+            border: 1px solid #292929;
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 18px;
+            transition: 0.2s;
+        }
+
+        .package:hover {
+            border-color: #39ff14;
+            transform: translateY(-2px);
+        }
+
+        .package-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .credits {
+            color: #39ff14;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .worth {
+            margin-top: 12px;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .worth span {
+            color: #39ff14;
+            font-weight: bold;
+        }
+
+        .recharge-btn {
+            width: 100%;
+            margin-top: 18px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #39ff14;
+            color: #000;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .recharge-btn:hover {
+            background: #28d90b;
+        }
+
+        .popular {
+            border: 1px solid #39ff14;
+            position: relative;
+        }
+
+        .badge {
+            position: absolute;
+            top: -12px;
+            right: 18px;
+            background: #39ff14;
+            color: #000;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0b0b0b;
+            border-top: 1px solid #222;
+            display: flex;
+            justify-content: space-around;
+            padding: 13px 5px;
+        }
+
+        .nav-item {
+            color: #777;
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #39ff14;
+        }
+
+        .nav-icon {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="back" onclick="goBack()">‹</div>
+        <div class="logo">QUESTWORLD</div>
+    </div>
+
+    <div class="container">
+
+        <div class="title">Recharge</div>
+        <div class="subtitle">
+            Choose your package and get more value.
+        </div>
+
+        <div class="balance">
+            <div class="balance-title">Current Balance</div>
+            <div class="balance-credit">
+                <span id="currentCredits">55</span> Credits
+            </div>
+        </div>
+
+        <!-- Package 1 -->
+        <div class="package">
+
+            <div class="package-top">
+                <div class="price">₹1,250</div>
+                <div class="credits">20 Credits</div>
+            </div>
+
+            <div class="worth">
+                Standard Package
+            </div>
+
+            <button class="recharge-btn"
+                onclick="selectPackage(1250, 20)">
+                Recharge Now
+            </button>
+
+        </div>
+
+        <!-- Package 2 -->
+        <div class="package popular">
+
+            <div class="badge">POPULAR</div>
+
+            <div class="package-top">
+                <div class="price">₹2,500</div>
+                <div class="credits">55 Credits</div>
+            </div>
+
+            <div class="worth">
+                Get <span>₹4,000 worth</span> of value
+            </div>
+
+            <button class="recharge-btn"
+                onclick="selectPackage(2500, 55)">
+                Recharge Now
+            </button>
+
+        </div>
+
+        <!-- Package 3 -->
+        <div class="package">
+
+            <div class="package-top">
+                <div class="price">₹3,500</div>
+                <div class="credits">105 Credits</div>
+            </div>
+
+            <div class="worth">
+                Get <span>₹7,000 worth</span> of value
+            </div>
+
+            <button class="recharge-btn"
+                onclick="selectPackage(3500, 105)">
+                Recharge Now
+            </button>
+
+        </div>
+
+        <!-- Package 4 -->
+        <div class="package">
+
+            <div class="package-top">
+                <div class="price">₹5,000</div>
+                <div class="credits">165 Credits</div>
+            </div>
+
+            <div class="worth">
+                Get <span>₹10,000 worth</span> of value
+            </div>
+
+            <button class="recharge-btn"
+                onclick="selectPackage(5000, 165)">
+                Recharge Now
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="bottom-nav">
+
+        <div class="nav-item" onclick="goHome()">
+            <span class="nav-icon">⌂</span>
+            Home
+        </div>
+
+        <div class="nav-item" onclick="goGames()">
+            <span class="nav-icon">🎮</span>
+            Games
+        </div>
+
+        <div class="nav-item active">
+            <span class="nav-icon">💳</span>
+            Recharge
+        </div>
+
+        <div class="nav-item" onclick="goProfile()">
+            <span class="nav-icon">👤</span>
+            Profile
+        </div>
+
+    </div>
+
+    <script>
+
+        function selectPackage(price, credits) {
+            window.location.href =
+                "payment.html?price=" + price + "&credits=" + credits;
+        }
+
+        function goBack() {
+            window.location.href = "customer-dashboard.html";
+        }
+
+        function goHome() {
+            window.location.href = "customer-dashboard.html";
+        }
+
+        function goGames() {
+            alert("Games section coming next! 🎮");
+        }
+
+        function goProfile() {
+            alert("Profile section coming next! 👤");
+        }
+
+    </script>
+
+</body>
+</html>
